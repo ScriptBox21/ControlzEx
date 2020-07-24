@@ -61,6 +61,7 @@ namespace ControlzEx.Behaviors
             this.messageTable = new List<HANDLE_MESSAGE>
                             {
                                 new HANDLE_MESSAGE(WM.NCUAHDRAWCAPTION,       this._HandleNCUAHDRAWCAPTION),
+                                new HANDLE_MESSAGE(WM.NCUAHDRAWFRAME,         this._HandleNCUAHDRAWFRAME),
                                 new HANDLE_MESSAGE(WM.SETTEXT,                this._HandleSETICONOrSETTEXT),
                                 new HANDLE_MESSAGE(WM.SETICON,                this._HandleSETICONOrSETTEXT),
                                 new HANDLE_MESSAGE(WM.SYSCOMMAND,             this._HandleSYSCOMMAND),
@@ -174,14 +175,28 @@ namespace ControlzEx.Behaviors
                 {
                     this._ModifyStyle(0, WS.VISIBLE);
                 }
+
                 handled = true;
                 return lRet;
             }
             else
             {
-                handled = false;
+                handled = true;
                 return IntPtr.Zero;
             }
+        }
+
+        /// <SecurityNote>
+        ///   Critical : Calls critical methods
+        /// </SecurityNote>
+        [SecurityCritical]
+        private IntPtr _HandleNCUAHDRAWFRAME(WM uMsg, IntPtr wParam, IntPtr lParam, out bool handled)
+        {
+            // Passing these internally-defined messages to DefWindowProc will result in
+            // drawing the caption or frame, so mark this as handled so we don't call
+            // DefWindowProc
+            handled = true;
+            return IntPtr.Zero;
         }
 
         private IntPtr _HandleSETICONOrSETTEXT(WM uMsg, IntPtr wParam, IntPtr lParam, out bool handled)
