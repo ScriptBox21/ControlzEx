@@ -2611,6 +2611,7 @@ namespace ControlzEx.Standard
         }
     }
 
+    [CLSCompliant(false)]
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct WNDCLASS
     {
@@ -3985,6 +3986,7 @@ namespace ControlzEx.Standard
             return ret;
         }
 
+        [CLSCompliant(false)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern ushort RegisterClass(ref WNDCLASS lpWndClass);
 
@@ -4281,6 +4283,7 @@ namespace ControlzEx.Standard
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool _UnregisterClassName(string lpClassName, IntPtr hInstance);
 
+        [CLSCompliant(false)]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public static void UnregisterClass(ushort atom, IntPtr hinstance)
         {
